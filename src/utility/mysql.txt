@@ -1,0 +1,54 @@
+REATE TABLE projectx.`users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password_hash` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ;
+
+CREATE TABLE `projectx`.`roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `role` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+insert into projectx.roles (role) values ('user');
+insert into projectx.roles (role) values ('admin');
+insert into projectx.roles (role) values ('manager');
+
+CREATE TABLE projectx.`users_roles` (
+  `user_id` int NOT NULL,
+  `role_id` int NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `users_roles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `users_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+) ;
+
+CREATE TABLE `projectx`.`permissions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `permission` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0;
+
+insert into projectx.permissions(permission) values('read_data');
+insert into projectx.permissions(permission) values('edit_data');
+insert into projectx.permissions(permission) values('manage_users');
+insert into projectx.permissions(permission) values('approve_requests');
+
+CREATE TABLE `projectx`.`role_permissions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `role_id` int DEFAULT NULL,
+  `permission_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`),
+  KEY `permission_id` (`permission_id`),
+  CONSTRAINT `role_permissions_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `role_permissions_ibfk_2` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0;
+CREATE TABLE Games (
+    game_id INT AUTO_INCREMENT PRIMARY KEY,
+    game_name VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
